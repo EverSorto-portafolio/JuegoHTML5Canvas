@@ -4,9 +4,10 @@ window.onload = function () {
         let ctx = canvas.getContext("2d");
         if (ctx) {
 
-            let gradiente = ctx.createLinearGradient(0, 0, canvas.width, 0); // Creamos los elementos que sera la gradiente.
+            let gradiente = ctx.createLinearGradient(0, canvas.height, 0, 0); // Creamos los elementos que sera la gradiente.
             gradiente.addColorStop(0, "blue",);
             gradiente.addColorStop(0.5, "white",);
+            gradiente.addColorStop(0.6, "white",);
             gradiente.addColorStop(1, "blue",);
 
             ctx.fillStyle = gradiente;

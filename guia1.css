@@ -1,4 +1,11 @@
+body{
+
+    width: 510px;
+    margin: 0 auto;
+    text-align: center;
+}
 canvas{
     background-color: rgb(18, 121, 90);
     border: solid rgb(0, 42, 255) 3px;
 }
+

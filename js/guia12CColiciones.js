@@ -35,8 +35,8 @@ window.onload = function () {
 const mueve = ()=>{
     game.ctx.clearRect(0,0, game.canvas.width, game.canvas.height);
    verificar();
-   // game.bolax += game.dx;
    game.bolax += game.dx;
+   game.bolay += game.dy;
     game.ctx.beginPath();
     game.ctx.arc(game.bolax, game.bolay ,game.radio,0,2*Math.PI,true);
     game.ctx.fill();
@@ -68,6 +68,16 @@ const verificar = ()=>{
         bolaX = game.limiteI;
     }
 
+    if(bolaY > game.limiteAbajo){
+        game.dy *= -1;
+        bolaY = game.limiteAbajo;
+    }
+    if(bolaY < game.limiteA){
+        game.dy *= -1;
+        bolaY = game.limiteA;
+    }
+
     game.bolax = bolaX;
+    game.bolay = bolaY;
 }
 

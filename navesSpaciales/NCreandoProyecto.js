@@ -1,8 +1,8 @@
 
 const  KEY_ENTER = 13;
-const  KEY_LEFT = 37;
+const  KEY_LEFT = "ArrowLeft";
 const  KEY_UP = 38;
-const  KEY_RIGTH = 39;
+const  KEY_RIGTH = "ArrowRight";
 const  BARRA = 32;
 
 
@@ -27,10 +27,11 @@ window.onload = function () {
     if (game.canvas && game.canvas.getContext) {
         game.ctx = game.canvas.getContext("2d");
         if (game.ctx) {
-           // alert("Dentro del canvas");
+           
+            game.imagen = new  Image();
+            game.imagen.src = "../img/torre.fw.png"
             caratula();
-            //animar();
-
+            game.canvas.addEventListener("click", seleccionar, false);
         }
     } else {
         alert("canvas no soportado");
@@ -44,16 +45,14 @@ const animar = ()=>{
 }
 
 const verificar = () =>{
-    x  += 2;
-    if(x > game.canvas.width) x = 0;
+    if(game.tecla[ KEY_RIGTH]) game.x +=10;
+    if(game.tecla[ KEY_LEFT])  game.x -=10;
 };
 
 const pintar = ()=>{
     game.ctx.clearRect(0,0, game.canvas.width, game.canvas.height);
-    game.ctx.fillStyle = "red";
-    game.ctx.beginPath();
-    game.ctx.arc(x,y,5,0,2*Math.PI);
-    game.ctx.fill();
+    game.jugador.dibujar(game.x);
+    
 }
 
 function bala(x,y,w){
@@ -93,7 +92,6 @@ function enemigos(x,y){
 const caratula = ()=>{
     let imagen = new Image();
     imagen.src = "../img/cara.webp"
-    alert("dentro de la imagen")
     imagen.onload = ()=>{
         game.ctx.drawImage(imagen, 0,0);
     }
@@ -108,9 +106,25 @@ const seleccionar = (e)=>{
 const  inicio = ()=>{
     game.ctx.clearRect(0,0,game.canvas.width, game.canvas.height)
     game.caratula = false;
+
+    game.jugador = new jugador(0);
+    game.x =  game.canvas.width/2;
+    game.jugador.dibujar(game.x)
+    animar();
+
 }
 
+document.addEventListener("keydown", function(e){
+    game.teclaPulsada = e.key;
+    game.tecla[e.key] = true;
+   // alert("levantando la tecla " + game.tecla);
+    
+});
 
+document.addEventListener("keyup", function(e){
+   
+    game.tecla[e.key] = false;
+});
 
 window.requestAnimationFrame = (function () {
     return window.requestAnimationFrame ||

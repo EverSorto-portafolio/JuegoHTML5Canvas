@@ -3,7 +3,7 @@ const  KEY_ENTER = 13;
 const  KEY_LEFT = "ArrowLeft";
 const  KEY_UP = 38;
 const  KEY_RIGTH = "ArrowRight";
-const  BARRA = 32;
+const  BARRA = " ";
 
 
 game = {
@@ -47,20 +47,44 @@ const animar = ()=>{
 const verificar = () =>{
     if(game.tecla[ KEY_RIGTH]) game.x +=10;
     if(game.tecla[ KEY_LEFT])  game.x -=10;
+    if(game.tecla[BARRA]){
+        game.balasArray.push(new bala( game.jugador.x+12, game.jugador.y -3, 5));
+        game.tecla[BARRA]= false;
+    }
+    if(game.x > game.canvas.width- 10 ) game.x = game.canvas.width -10;
+    if(game.x <0 ) game.x =10;
 };
 
 const pintar = ()=>{
     game.ctx.clearRect(0,0, game.canvas.width, game.canvas.height);
     game.jugador.dibujar(game.x);
+
+    //mover proyectil
+    for(let i = 0; 
+        i< game.balasArray.length;
+        i++
+    ){
+        if(game.balasArray[i]!= null){
+            game.balasArray[i].dibujar();
+            if(game.balasArray[i].y<0){
+                game.balasArray[i] = null;
+            }
+        }
+    }
     
 }
 
 function bala(x,y,w){
     this.x = x;
     this.y = y;
-    this.w = w;
+    this.w = w; 
     this.dibujar = function(){
-
+        // dibujar el proyectil 
+        game.ctx.save();
+        game.ctx.fillStyle =  game.colorBala;
+        game.ctx.fillRect(this.x,this.y,this.w,this.w);
+        this.y = this.y -4; 
+        game.ctx.restore();
     }
     
 }
@@ -117,12 +141,13 @@ const  inicio = ()=>{
 document.addEventListener("keydown", function(e){
     game.teclaPulsada = e.key;
     game.tecla[e.key] = true;
-    alert("levantando la tecla " + game.tecla);
+   // alert("levantando la tecla " + game.tecla);
     
 });
 
 document.addEventListener("keyup", function(e){
     game.tecla[e.key] = false;
+   // alert(e.key )
 });
 
 window.requestAnimationFrame = (function () {

@@ -132,10 +132,25 @@ function enemigos(x,y){
     this.num = 14;
     this.figura = true;
     this.vive = true;
-    this.dibujar = function(){    
-        game.ctx.drawImage(
-            game.imagenEnemigo, 0,0,40,30,
-             this.x, this.y, 35,30 );
+    this.dibujar = function(){   
+       
+        if(this.ciclos > 30){
+            if(this.veces > this.num){
+                this.dx *= -1; //cambia de direccion
+                this.veces = 0; // reiciamos el ciclo
+                this.num = 28;
+                this.y += 20;
+                this.dx = (this.dx > 0)? this.dx ++ : this.dx --; 
+            }else{
+                this.x += this.dx;
+            }
+            this.veces++;
+            this.ciclos = 0;
+        }else{
+            this.ciclos ++;
+        }
+        game.ctx.drawImage(game.imagenEnemigo, 0,0,40,30,this.x, this.y, 35,30 );
+        
     }
 }
 

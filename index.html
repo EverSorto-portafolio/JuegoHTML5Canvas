@@ -75,9 +75,11 @@ game = {
     function Jugador(x) {
             this.x = x;
             this.y = 450;
+            this.w=30;
+            this.h=15;
             this.dibujar = function (x) {
                 this.x = x;
-                game.ctx.drawImage(game.imagen, this.x, this.y, 30, 15);
+                game.ctx.drawImage(game.imagen, this.x, this.y, this.w, this.h);
             };
     }
 
@@ -185,24 +187,46 @@ const colisiones=()=>{
                     (bala.y > enemigo.y) &&
                     (bala.y <enemigo.y+enemigo.w)){
                         enemigo.vive=false;
-                        game.enemigos_array[i] = null;
-                        game.balas_array[j] = null;
+                        
                         game.disparo = false;
-
-
 
                     }
 
             }
-
-
 
         }
 
     }
 
 
+    	//
+	//Colisión balas enemigas
+	//
+    
+    for(var j=0;j<game.balasEnemigas_array.length;j++){
 
+        bala = game.balasEnemigas_array[j];
+
+        if(bala !=null){
+
+            if ((bala.x > game.jugador.x) &&
+                (bala.x < game.jugador.x + game.jugador.w) &&
+                (bala.y > game.jugador.y) &&
+                (bala.y < game.jugador.y + game.jugador.h)) {
+
+                    gameOver();
+
+                }
+
+        }
+
+    }
+
+}
+
+const gameOver=()=>{
+
+    console.log("termino el juego");
 }
 
 const verificar = ()=>{
@@ -255,9 +279,7 @@ const dispararEnemigo=()=>{
 
     d = ultimos[Math.floor(Math.random() * 10)];
 
-    game.balasEnemigas_array.push(new Bala(game.enemigos_array[d].x+game.enemigos_array[d].w/2,
-    game.enemigos_array[d].y,5
-));
+    game.balasEnemigas_array.push(new Bala(game.enemigos_array[d].x+game.enemigos_array[d].w/2,game.enemigos_array[d].y,5));
 
 
 

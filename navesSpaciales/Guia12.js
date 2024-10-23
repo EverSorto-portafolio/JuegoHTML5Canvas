@@ -20,7 +20,8 @@ game = {
     balasArray: new Array(),
     enemigosArray: new Array(),
     balasEnemigasArray : new Array(),
-    puntos: 0
+    puntos: 0, 
+    finJuego: false
 
 }
 let x = 100;
@@ -55,10 +56,14 @@ window.onload = function () {
 }
 
 const animar = () => {
-    requestAnimationFrame(animar);
-    verificar();
-    pintar();
-    colision();
+
+    if(game.finJuego == false){
+        requestAnimationFrame(animar);
+        verificar();
+        pintar();
+        colision();
+    }
+    
 }
 
 const colision = () => {
@@ -297,7 +302,34 @@ const dispararEnemigo=()=>{
 }
 
 const gameOver = ()=>{
-  console("Termino el jeugo")
+ game.finJuego = true;
+ game.ctx.clearRect(0,0,game.canvas.width,game.canvas.height );
+game.balasArray=[];
+game.enemigosArray=[];
+game.balasEnemigasArray=[];
+
+if(game.puntos > 100 || game.puntos <=200){
+    mensaje(game.puntos, game.canvas.height/2);
+
+}else if (game.puntos >200){
+    mensaje("New Record" +game.puntos, 340);
+}else{
+    mensaje("Final " +game.puntos, 340);
+}
+
+}
+
+const mensaje = (cadena,y, t=40 )=>{
+    let medio = (game.canvas.width)/2;
+    game.ctx.save();
+    game.ctx.fillStyle="green";
+    game.ctx.fillStroke = "blue";
+    game.ctx.textBaseline ="top";
+    game.ctx.font = `bold ${t}px Courier`;
+    game.ctx.textAligen = "Center";
+    game.ctx.fillText(cadena, medio , y);
+    game.ctx.restore();
+
 }
 
 document.addEventListener("keydown", function (e) {

@@ -19,7 +19,8 @@ game = {
     disparo : false,
     balasArray: new Array(),
     enemigosArray: new Array(),
-    balasEnemigasArray : new Array()
+    balasEnemigasArray : new Array(),
+    puntos: 0
 
 }
 let x = 100;
@@ -73,12 +74,12 @@ const colision = () => {
                     (bala.x < enemigo.x + enemigo.w) &&
                     (bala.y > enemigo.y) &&
                     (bala.y < enemigo.y + enemigo.w)
-                ) {
-                    
+                ) {    
                     enemigo.vive = false;
                     game.enemigosArray[i] = null;
                     game.balasArray[j] = null;
                     game.disparo = false;
+                    game.puntos += 10;
                 }
  
               }
@@ -95,7 +96,7 @@ const colision = () => {
                 (bala.y > game.jugador.y) &&
                 (bala.y < game.jugador.y + game.jugador.h)
             ){
-                alert("Colicion")
+                gameOver();
             }
         }
 
@@ -126,10 +127,21 @@ const verificar = () => {
     }
 };
 
+const score = ()=>{
+    game.ctx.save();
+    game.ctx.fillStyle = "white";
+    game.ctx.font = "bold 20px Courier";
+    game.ctx.fillText("SCORE " + game.puntos, 10,20);
+    game.ctx.restore();
+}
+
+
+
 const pintar = () => {
     game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.jugador.dibujar(game.x);
 
+    score();
     //mover proyectil
     for (let i = 0; i < game.balasArray.length;i++) {
         if (game.balasArray[i] != null) {
@@ -285,7 +297,7 @@ const dispararEnemigo=()=>{
 }
 
 const gameOver = ()=>{
-  alert("Termino el jeugo")
+  console("Termino el jeugo")
 }
 
 document.addEventListener("keydown", function (e) {

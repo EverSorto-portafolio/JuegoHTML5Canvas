@@ -95,7 +95,7 @@ const colision = () => {
                 (bala.y > game.jugador.y) &&
                 (bala.y < game.jugador.y + game.jugador.h)
             ){
-                alert("Colicion")
+                gameOver();
             }
         }
 
